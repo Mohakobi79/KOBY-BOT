@@ -3,7 +3,7 @@ const {
   generateWAMessageContent,
   generateWAMessageFromContent,
   proto
-} = (await import("baileys"))["default"];
+} = (await import("@adiwajshhing/baileys"))["default"];
 
 let handler = async (m, { conn, text, usedPrefix }) => {
   if (!text) {
