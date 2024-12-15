@@ -32,7 +32,7 @@ const handler = async (m, { conn }) => {
     throw '> *[💚] Error: Please send an audio or video file.*';
   }
 };
-
+handler.tags = ['Toul'];
 handler.command = /^tomp3$/i;
 export default handler;
 
