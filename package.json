@@ -37,7 +37,7 @@
     "cfonts": "^3.1.1",
     "chalk": "^5.0.1",
     "cheerio": "npm:cheerio@1.0.0-rc.12",
-        "baileys": "git+https://lyfe00011-admin@bitbucket.org/lyfe00011/baileys.git",
+        
     "colors": "1.4.0",
     "express": "^4.18.1",
     "acrcloud": "^1.4.0",
