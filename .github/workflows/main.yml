@@ -1,4 +1,4 @@
-name: The Bot Host
+name: KOBY-BOT 
 on:
   workflow_dispatch:
   push:
