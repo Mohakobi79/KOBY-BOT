@@ -79,7 +79,7 @@ const handler = async (m, { conn, command, text, usedPrefix }) => {
   }
 };
 
-handler.help = ['play'].map((v) => v + ' <اسم الاغنية>');
+handler.help = ['play'].map((v) => v + ' <اسم لاغنية>');
 handler.tags = ['downloader'];
 handler.command = /^(play)$/i;
 
