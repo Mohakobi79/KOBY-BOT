@@ -11,7 +11,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
   }
 };
 
-handler.help = ['openai'];
+handler.help = ['ai'];
 handler.tags = ['Ai'];
 handler.command = /^ai$/i;
 handler.limit = false;
