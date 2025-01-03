@@ -58,7 +58,7 @@ handler.all = async function (_0x439f91) {
           body: ucapan(),
           previewType: "VIDEO",
           thumbnailUrl: "https://qu.ax/hvhcP.jpg",
-          sourceUrl: "https://whatsapp.com/channel/0029Va4K0PZ5a245NkngBA2M"
+          sourceUrl: "‏https://whatsapp.com/channel/0029VaAjoQmBFLgcjXVziq3W"
         }
       }
     };
