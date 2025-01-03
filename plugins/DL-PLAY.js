@@ -1,46 +1,52 @@
-import yts from 'yt-search';
-import axios from 'axios';
+import yts from 'yt-search'; // Pastikan Anda sudah menginstal yt-search
 
-const handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text) throw `Use example: ${usedPrefix}${command} <search term>`;
+const handler = async (m, { conn, text }) => {
+    if (!text) return conn.reply(m.chat, 'Masukkan judul lagu', m);
+    m.reply(wait);
+    
+    let res;
+    try {
+        res = await yts(text);
+    } catch (error) {
+        console.error(error); // Log error ke konsol untuk debugging
+        return conn.reply(m.chat, 'Terjadi kesalahan saat melakukan pencarian, silahkan coba lagi nanti', m);
+    }
 
-  // البحث عن الفيديو باستخدام yt-search
-  const search = await yts(text);
-  const vid = search.videos[0]; // اختيار أول فيديو في النتائج
-  if (!vid) throw 'Video not found, try another title';
+    if (!res || !res.videos || res.videos.length === 0) {
+        return conn.reply(m.chat, 'Tidak ada hasil ditemukan', m);
+    }
 
-  const { title, thumbnail, url } = vid;
+    let hsl = res.videos[0]; // Ambil video pertama dari hasil pencarian
+    let url = hsl.url;
+    let thumbnail = hsl.thumbnail;
+    let title = hsl.title;
+    let duration = hsl.timestamp;
+    let views = hsl.views;
+    let author = hsl.author.name;
 
-  // إرسال رسالة انتظار مع الصورة المصغرة
-  await conn.sendMessage(m.chat, {
-    image: { url: thumbnail },
-    caption: `🩵*_${title}_*🩶`,
-  }, { quoted: m });
+    try {
+        // Mengirim gambar thumbnail dengan informasi detail
+        await conn.sendMessage(m.chat, {
+            image: { url: thumbnail },
+            caption: `*Judul:* ${title}\n*Durasi:* ${duration}\n*Views:* ${views}\n*Author:* ${author}\n*Link:* ${url}`,
+        }, { quoted: m });
 
-  try {
-    // الحصول على رابط التحميل للصوت
-    const response = await axios.get(`https://api.ryzendesu.vip/api/downloader/ytmp3?url=${encodeURIComponent(url)}`);
-    const downloadUrl = response.data.url;
+        // Mengirim audio menggunakan sendMessage
+        await conn.sendMessage(m.chat, {
+            audio: { url: `http://alibaka.botwaaa.web.id:8081/yt/dl?url=${encodeURIComponent(url)}` },
+            mimetype: 'audio/mp4',
+            ptt: true, // Set true jika ingin mengirim sebagai pesan suara
+        }, { quoted: m });
 
-    if (!downloadUrl) throw new Error('Audio URL not found');
-
-    // إرسال الصوت مباشرة كـ PTT (Voice Note)
-    await conn.sendMessage(m.chat, {
-      audio: { url: downloadUrl },
-      mimetype: 'audio/mpeg',
-      ptt: true, // إرسال كـ Voice Note
-    }, { quoted: m });
-  } catch (error) {
-    console.error('Error:', error.message);
-    throw `Error: ${error.message}. Please check the URL and try again.`;
-  }
+        
+    } catch (e) {
+        console.error(e); // Log error ke konsol untuk debugging
+        return conn.reply(m.chat, 'Terjadi kesalahan saat memuat data, silahkan coba lagi nanti', m);
+    }
 };
 
-handler.help = ['play'].map((v) => v + ' <query>');
-handler.tags = ['downloader'];
-handler.command = /^(play)$/i;
-
-handler.register = false;
-handler.disable = false;
+handler.help = ["play <judul lagu>"];
+handler.tags = ["downloader"];
+handler.command = ["play"];
 
 export default handler;
