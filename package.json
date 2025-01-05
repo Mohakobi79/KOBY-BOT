@@ -31,6 +31,8 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@adiwajshing/baileys":"npm:@rulzz2nd/baileys-emde",
+    "@adiwajshing/baileys": "npm:@queenanya/baileys@^6.8.2",
+    "@adiwajshing/baileys": "https://github.com/Eximinati/Baileys-.git",
     "@adiwajshing/keyed-db": "^0.2.4",
     "awesome-phonenumber": "^2.68.0",
     "axios": "^1.3.4",
