@@ -38,7 +38,7 @@
     "cfonts": "^3.1.1",
     "chalk": "^5.0.1",
     "cheerio": "npm:cheerio@1.0.0-rc.12",
-            "@adiwajshing/baileys":"@rulzz2nd/baileys-emde",
+                "@adiwajshing/baileys": "github:LT-SYAII/Bail",
     "colors": "1.4.0",
     "express": "^4.18.1",
     "acrcloud": "^1.4.0",
