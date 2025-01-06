@@ -24,43 +24,9 @@ jobs:
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step to check and restart the latest completed workflow if none are in progress
-      - name: Restart Latest Completed Run
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Checking for in-progress runs..."
-          IN_PROGRESS_RUNS=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/actions/runs \
-            | jq '.workflow_runs[] | select(.status == "in_progress") | .id')
-
-          if [ -z "$IN_PROGRESS_RUNS" ]; then
-            echo "No in-progress runs found. Restarting the last completed run..."
-            LAST_COMPLETED_RUN=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-              https://api.github.com/repos/${{ github.repository }}/actions/runs \
-              | jq '.workflow_runs[] | select(.status == "completed") | .id' | head -n 1)
-
-            if [ -n "$LAST_COMPLETED_RUN" ]; then
-              echo "Restarting run ID: $LAST_COMPLETED_RUN"
-              curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
-                https://api.github.com/repos/${{ github.repository }}/actions/runs/$LAST_COMPLETED_RUN/rerun
-            else
-              echo "No completed runs found to restart."
-            fi
-          else
-            echo "In-progress run found. No need to restart."
-          fi
-
       # Clone the repository
       - name: Clone repository
         uses: actions/checkout@v4
-
-      # Install required libraries
-      - name: Install Required Libraries
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg imagemagick webp
-          sudo apt-get upgrade -y
 
       # Install Node.js
       - name: Install Node.js
@@ -70,7 +36,7 @@ jobs:
 
       # Install dependencies
       - name: Install Dependencies
-        run: npm install
+        run: npm install 
 
       # Build the project
       - name: Build Project
